@@ -8,4 +8,27 @@
             Add BlogPost
         </a>
     </div>
+
+    @if (blogPosts$ | async; as blogPosts) {
+        <ng-container>
+            <table class="table table-bordered table-responsive mt-5">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Short Description</th>
+                        <th>Is Visible?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (blogpost of blogPosts; track $index) {
+                        <tr>
+                            <td>{{blogpost.title}}</td>
+                            <td>{{blogpost.shortDescription}}</td>
+                            <td>{{blogpost.isVisible}}</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </ng-container>
+    }
 </div>
