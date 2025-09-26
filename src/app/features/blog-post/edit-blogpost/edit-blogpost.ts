@@ -27,6 +27,7 @@ export class EditBlogpost implements OnInit,OnDestroy{
   selectedCategories?:string[]
   updateBlogPostSubscription?:Subscription
   getBlogPostSubscription?:Subscription
+  deleteBlogPostSubscription?:Subscription
 
   constructor(private route:ActivatedRoute, private blogPostService:BlogPostService, private categoryService:CategoryService, private router:Router){ }
 
@@ -88,6 +89,24 @@ export class EditBlogpost implements OnInit,OnDestroy{
     } 
   }
 
+  onDelete(){
+    if(this.id) {
+      var confirmDelete = confirm("are you sure you wanna to delete this blogpost?")
+      if(confirmDelete) {
+        this.deleteBlogPostSubscription = this.blogPostService.deleteBlogPost(this.id).subscribe({
+          next:()=> {
+            alert("Sucessfully deleting blogpost")
+            this.router.navigateByUrl("/admin/blogposts")
+          },
+          error:(error:any)=> {
+            alert("Error deleting blogpost")
+            console.error("Error deleting blogpost: ",error)
+          }
+        })
+      }
+    }
+  }
+
   backToBlogpost():void{
     this.router.navigateByUrl("/admin/blogposts")
   }
@@ -96,6 +115,7 @@ export class EditBlogpost implements OnInit,OnDestroy{
     this.routeSubscription?.unsubscribe()
     this.updateBlogPostSubscription?.unsubscribe()
     this.getBlogPostSubscription?.unsubscribe()
+    this.deleteBlogPostSubscription?.unsubscribe()
   }
 
   // bind helpers for input[type=date]

@@ -9,10 +9,11 @@ import { CategoryService } from '../../category/services/category';
 import { Observable } from 'rxjs';
 import { Category } from '../../category/models/category.model';
 import {MatSelectModule} from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-blogpost-add',
-  imports: [FormsModule, CommonModule, MarkdownComponent,MatSelectModule],
+  imports: [FormsModule, CommonModule, MarkdownComponent,MatSelectModule,MatButtonModule],
   templateUrl: './blogpost-add.html',
   styleUrl: './blogpost-add.css'
 })
@@ -20,7 +21,7 @@ export class BlogpostAdd implements OnInit{
     model:AddBlogPost;
     categories$?: Observable<Category[]>
 
-    constructor(private blogPostService:BlogPostService, private router:Router, private categoryService:CategoryService){
+    constructor(private blogPostService:BlogPostService, private router:Router, private categoryService:CategoryService,){
       this.model = {
         title:'',
         shortDescription:'',
@@ -44,6 +45,10 @@ export class BlogpostAdd implements OnInit{
       this.model.categories = selectedValues;
     }
     
+
+    onBackButton():void {
+      this.router.navigateByUrl("/admin/blogposts")
+    }
 
     onSubmit(): void{
       console.log(this.model)

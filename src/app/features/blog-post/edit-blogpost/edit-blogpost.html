@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container pb-3">
     <h1 class="mt-3">Edit BlogPost</h1>
     <button mat-flat-button (click)="backToBlogpost()">Back</button>
 
@@ -92,8 +92,9 @@
                         </div>
        
         
-                    <div class="mt-3">
+                    <div class="mt-3 d-flex gap-3">
                         <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-danger" (click)="onDelete()">Delete</button>
                     </div>
                 </div>
             </form> 
