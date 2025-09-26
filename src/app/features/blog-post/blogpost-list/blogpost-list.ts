@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { BlogPost } from '../services/blog-post';
+import { BlogPostService } from '../services/blog-post';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 export class BlogpostList implements OnInit{
   blogPosts$:Observable<any[]> | undefined
 
-  constructor(private blogPostService:BlogPost){}
+  constructor(private blogPostService:BlogPostService){}
 
   ngOnInit(): void {
     this.blogPosts$ = this.blogPostService.getAllBlogPosts()

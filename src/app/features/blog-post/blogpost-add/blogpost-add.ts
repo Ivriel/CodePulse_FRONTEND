@@ -1,21 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AddBlogPost } from '../models/add-blogpost.model';
 import { CommonModule } from '@angular/common';
-import { BlogPost } from '../services/blog-post';
+import {  BlogPostService } from '../services/blog-post';
 import { Router } from '@angular/router';
 import { MarkdownComponent } from "ngx-markdown";
+import { CategoryService } from '../../category/services/category';
+import { Observable } from 'rxjs';
+import { Category } from '../../category/models/category.model';
+import {MatSelectModule} from '@angular/material/select';
 
 @Component({
   selector: 'app-blogpost-add',
-  imports: [FormsModule, CommonModule, MarkdownComponent],
+  imports: [FormsModule, CommonModule, MarkdownComponent,MatSelectModule],
   templateUrl: './blogpost-add.html',
   styleUrl: './blogpost-add.css'
 })
-export class BlogpostAdd {
+export class BlogpostAdd implements OnInit{
     model:AddBlogPost;
+    categories$?: Observable<Category[]>
 
-    constructor(private blogPostService:BlogPost, private router:Router){
+    constructor(private blogPostService:BlogPostService, private router:Router, private categoryService:CategoryService){
       this.model = {
         title:'',
         shortDescription:'',
@@ -24,11 +29,24 @@ export class BlogpostAdd {
         urlHandle:'',
         author:'',
         publishedDate:new Date(),
-        isVisible:false
+        isVisible:false,
+        categories:[],
       }
     }
 
+    ngOnInit(): void {
+     this.categories$ = this.categoryService.getAllCategories()
+    }
+
+    onCategoryChange(event: Event) {
+      const selectElement = event.target as HTMLSelectElement;
+      const selectedValues = Array.from(selectElement.selectedOptions, option => option.value);
+      this.model.categories = selectedValues;
+    }
+    
+
     onSubmit(): void{
+      console.log(this.model)
       this.blogPostService.createBlogPost(this.model).subscribe({
         next:()=> {
           this.router.navigateByUrl("/admin/blogposts")

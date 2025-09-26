@@ -5,7 +5,7 @@ export interface BlogPost {
     title:string;
     shortDescription:string;
     content:string;
-    featuredImagesUrl:string;
+    featuredImageUrl:string;
     urlHandle:string;
     author:string;
     publishedDate:Date;

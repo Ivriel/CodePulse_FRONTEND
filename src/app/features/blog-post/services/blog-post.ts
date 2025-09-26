@@ -3,12 +3,14 @@ import { AddBlogPost } from '../models/add-blogpost.model';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
+import { BlogPost } from '../models/blog-post.model';
+import { UpdateBlockPost } from '../models/update-blog-post.model';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class BlogPost {
+export class BlogPostService {
   constructor(private http:HttpClient){}
 
   createBlogPost(data:AddBlogPost):Observable<BlogPost>{
@@ -17,6 +19,14 @@ export class BlogPost {
 
   getAllBlogPosts():Observable<BlogPost[]> {
     return this.http.get<BlogPost[]>(`${environment.apiBaseUrl}/api/blogposts`)
+  }
+
+  getBlogPostById(id:string):Observable<BlogPost> {
+    return this.http.get<BlogPost>(`${environment.apiBaseUrl}/api/blogposts/${id}`)
+  }
+
+  updateBlogPost(id:string,updatedBlogPost:UpdateBlockPost):Observable<BlogPost> {
+    return this.http.put<BlogPost>(`${environment.apiBaseUrl}/api/blogposts/${id}`,updatedBlogPost)
   }
 
 }

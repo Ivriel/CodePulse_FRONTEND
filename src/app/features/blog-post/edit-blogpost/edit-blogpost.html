@@ -1,0 +1,103 @@
+<div class="container">
+    <h1 class="mt-3">Edit BlogPost</h1>
+    <button mat-flat-button (click)="backToBlogpost()">Back</button>
+
+    @if (model) {
+        <ng-container>
+            <form #form="ngForm" (ngSubmit)="onSubmit()"> 
+                <div class="mt-2 mb-5">
+                    <div class="mt-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" id="title" [(ngModel)]="model.title" name="title" class="form-control">
+                    </div>
+        
+                    <div class="mt-3">
+                        <label for="urlHandle" class="form-label">Url Handle</label>
+                        <input type="text" id="urlHandle"  [(ngModel)]="model.urlHandle" name="urlHandle" class="form-control">
+                    </div>
+        
+                    <div class="mt-3">
+                        <label for="shortDescription" class="form-label">Short Description</label>
+                        <input type="text" id="shortDescription" [(ngModel)]="model.shortDescription" name="shortDescription" class="form-control">
+                    </div>
+        
+                    <div class="mt-3">
+                        <label for="content" class="form-label">Content</label>
+        
+                        <div class="d-flex flex-row">
+                            <div class="col-6 p-2">
+                                <textarea 
+                                name="content" 
+                                id="content" 
+                                class="form-control" 
+                                style="height: 350px; max-height: 350px;" 
+                                [(ngModel)]="model.content"></textarea>
+                            </div>
+                            <div class="col-6 p-2" style="max-height: 350px; overflow-y: scroll;">
+                                <markdown [data]="model.content"></markdown>
+                            </div>
+                        </div>
+                   
+                    </div>
+        
+                    <div class="mt-3">
+                        <label for="featuredImageUrl" class="form-label">Featured Images Url</label>
+        
+                       @if (model.featuredImageUrl !== '') {
+                        <ng-container>
+                            <div> 
+                                <img [src]="model.featuredImageUrl" height="100" class="my-2">
+                            </div>
+                        </ng-container>
+                       }
+        
+                        <input type="text" id="featuredImageUrl" [(ngModel)]="model.featuredImageUrl" name="featuredImageUrl" class="form-control">
+                    </div>
+        
+                    <div class="mt-3">
+                        <label for="publishedDate" class="form-label">Published Date</label>
+                        <input type="date" id="publishedDate" 
+                               [ngModel]="formatDate(model.publishedDate)"
+                               (ngModelChange)="onDateChange($event)"
+                               name="publishedDate" class="form-control">
+                    </div>
+        
+                    <div class="mt-3">
+                        <label for="author" class="form-label">Author</label>
+                        <input type="text" id="author" [(ngModel)]="model.author" name="author" class="form-control">
+                    </div>
+        
+                    <div class="form-check mt-3">
+                        <input class="form-check-input" name="isVisible" [(ngModel)]="model.isVisible" type="checkbox" value="" id="isVisible"/>
+                        <label class="form-check-label" for="isVisible">Is Visible?</label>
+                    </div>
+        
+                 
+                             <div class="mt-3">
+                            <mat-label>Select Categories</mat-label>
+        
+                            @if (categories$ | async; as categories) {
+                                <ng-container>
+                                    
+                                    <mat-select class="form-control" [(ngModel)]="selectedCategories" name="categories" id="categories" [multiple]="true">
+                                       @for (category of categories; track $index) {
+                                        <mat-option [value]="category.id">
+                                            {{category.name}}
+                                        </mat-option>
+                                       }
+                                    </mat-select>
+                                </ng-container>
+
+                            }
+                        </div>
+       
+        
+                    <div class="mt-3">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </form> 
+        </ng-container>
+    } 
+
+</div>
