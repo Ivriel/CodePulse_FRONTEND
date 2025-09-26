@@ -11,10 +11,11 @@ import { Category } from '../../category/models/category.model';
 import { MatSelectModule } from '@angular/material/select';
 import {MatButtonModule} from '@angular/material/button';
 import { UpdateBlockPost } from '../models/update-blog-post.model';
+import { ImageSelector } from '../../../shared/components/image-selector/image-selector';
 
 @Component({
   selector: 'app-edit-blogpost',
-  imports: [CommonModule,FormsModule,MarkdownModule,MatSelectModule,MatButtonModule],
+  imports: [CommonModule,FormsModule,MarkdownModule,MatSelectModule,MatButtonModule,ImageSelector],
   templateUrl: './edit-blogpost.html', 
   styleUrl: './edit-blogpost.css'
 })
@@ -28,6 +29,7 @@ export class EditBlogpost implements OnInit,OnDestroy{
   updateBlogPostSubscription?:Subscription
   getBlogPostSubscription?:Subscription
   deleteBlogPostSubscription?:Subscription
+  isImageSelectorVisible: boolean = false
 
   constructor(private route:ActivatedRoute, private blogPostService:BlogPostService, private categoryService:CategoryService, private router:Router){ }
 
@@ -111,12 +113,21 @@ export class EditBlogpost implements OnInit,OnDestroy{
     this.router.navigateByUrl("/admin/blogposts")
   }
 
+  openImageSelector():void {
+    this.isImageSelectorVisible = true
+  }
+
+  closeImageSelector():void {
+    this.isImageSelectorVisible = false
+  }
+
   ngOnDestroy(): void {
     this.routeSubscription?.unsubscribe()
     this.updateBlogPostSubscription?.unsubscribe()
     this.getBlogPostSubscription?.unsubscribe()
     this.deleteBlogPostSubscription?.unsubscribe()
   }
+  
 
   // bind helpers for input[type=date]
   formatDate(dateValue?: Date): string | null {
