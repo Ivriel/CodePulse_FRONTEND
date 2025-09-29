@@ -12,6 +12,8 @@ import { MatSelectModule } from '@angular/material/select';
 import {MatButtonModule} from '@angular/material/button';
 import { UpdateBlockPost } from '../models/update-blog-post.model';
 import { ImageSelector } from '../../../shared/components/image-selector/image-selector';
+import { ImageService } from '../../../shared/components/image-selector/image';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-blogpost',
@@ -29,9 +31,16 @@ export class EditBlogpost implements OnInit,OnDestroy{
   updateBlogPostSubscription?:Subscription
   getBlogPostSubscription?:Subscription
   deleteBlogPostSubscription?:Subscription
+  imageSelectSubscription?:Subscription
   isImageSelectorVisible: boolean = false
 
-  constructor(private route:ActivatedRoute, private blogPostService:BlogPostService, private categoryService:CategoryService, private router:Router){ }
+  constructor(
+    private route:ActivatedRoute, 
+    private blogPostService:BlogPostService, 
+    private categoryService:CategoryService, 
+    private router:Router,
+    private imageService:ImageService
+  ){ }
 
   ngOnInit(): void {
     this.categories$ =  this.categoryService.getAllCategories()
@@ -43,6 +52,9 @@ export class EditBlogpost implements OnInit,OnDestroy{
       },
       error:(err:any) => {
         console.error("Error getting id: ",err)
+      },
+      complete:()=> { 
+
       }
     })
   }
@@ -61,6 +73,15 @@ export class EditBlogpost implements OnInit,OnDestroy{
         }
       })
     }
+
+    this.imageSelectSubscription =  this.imageService.onSelectImage().subscribe({
+      next: (res:any) => {
+        if(this.model) {
+          this.model.featuredImageUrl = res.url
+          this.isImageSelectorVisible = false
+        }
+      },
+    })
    
   }
 
@@ -126,6 +147,7 @@ export class EditBlogpost implements OnInit,OnDestroy{
     this.updateBlogPostSubscription?.unsubscribe()
     this.getBlogPostSubscription?.unsubscribe()
     this.deleteBlogPostSubscription?.unsubscribe()
+    this.imageSelectSubscription?.unsubscribe()
   }
   
 

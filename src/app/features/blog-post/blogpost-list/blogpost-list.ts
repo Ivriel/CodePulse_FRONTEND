@@ -1,22 +1,51 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { BlogPostService } from '../services/blog-post';
-import { Observable } from 'rxjs';
-import { CommonModule } from '@angular/common';
+import {  Subscription } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-blogpost-list',
-  imports: [RouterLink,CommonModule],
+  imports: [RouterLink],
   templateUrl: './blogpost-list.html',
   styleUrl: './blogpost-list.css'
 })
 export class BlogpostList implements OnInit{
-  blogPosts$:Observable<any[]> | undefined
+  blogPosts:any[] = []
+  private subcription:Subscription | undefined
 
   constructor(private blogPostService:BlogPostService){}
 
   ngOnInit(): void {
-    this.blogPosts$ = this.blogPostService.getAllBlogPosts()
+    this.getAllBlogposts()
+  }
+
+  getAllBlogposts(): void {
+    Swal.fire({
+      title: 'Memuat data profile...',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
+   this.subcription = this.blogPostService.getAllBlogPosts().subscribe({
+      next: (res:any[]) => {
+        this.blogPosts = res
+      },
+      error:(error:any)=> {
+        Swal.close()
+        Swal.fire({
+          title:'Error',
+          text:error?.error || 'Terjadi kesalahan saat login',
+          icon:'error'
+        })
+        console.error("Error loading blogposts")
+      },
+      complete:() => {
+        Swal.close()
+      }
+    })
   }
 
 }
