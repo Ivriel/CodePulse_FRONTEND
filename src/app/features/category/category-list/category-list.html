@@ -1,7 +1,13 @@
 <div class="container">
   <h1 class="mt-3 mb-4 text-center">📂 Category List</h1>
 
-  <div class="d-flex justify-content-end mb-3">
+  <div class="d-flex justify-content-between mb-3">
+
+    <div class="d-flex">
+      <input type="text" class="form-control me-3" name="queryText" id="queryText" #queryText>
+      <button type="button" class="btn btn-warning ms-3" (click)="onSearch(queryText.value)">Search</button>
+    </div>
+
     <a class="btn btn-primary shadow-sm" routerLink="/admin/categories/add">
       ➕ Add Category
     </a>

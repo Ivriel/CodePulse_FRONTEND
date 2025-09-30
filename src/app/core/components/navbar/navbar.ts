@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../features/auth/services/auth';
 import { User } from '../../../features/auth/models/user.model';
-import { P } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-navbar',

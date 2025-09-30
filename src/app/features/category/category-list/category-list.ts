@@ -21,4 +21,8 @@ export class CategoryList implements OnInit{
     this.categories$ =  this.categoryService.getAllCategories()
   }
 
+  onSearch(queryText:string):void {
+    this.categories$ = this.categoryService.getAllCategories(queryText)
+  }
+
 }
