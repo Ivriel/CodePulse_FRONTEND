@@ -25,4 +25,8 @@ export class CategoryList implements OnInit{
     this.categories$ = this.categoryService.getAllCategories(queryText)
   }
 
+  sort(sortBy:string, sortDirection:string) {
+    this.categories$ = this.categoryService.getAllCategories(undefined,sortBy,sortDirection)
+  }
+
 }
