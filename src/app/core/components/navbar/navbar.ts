@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../../features/auth/services/auth';
+import { User } from '../../../features/auth/models/user.model';
 
 @Component({
   selector: 'app-navbar',
@@ -7,6 +9,23 @@ import { RouterLink } from '@angular/router';
   templateUrl: './navbar.html',
   styleUrl: './navbar.css'
 })
-export class Navbar {
+export class Navbar implements OnInit{
+  user?:User
+  constructor(private authService:AuthService, private router:Router){}
+
+  ngOnInit(): void {
+    this.authService.user().subscribe({
+      next:(res) => {
+        this.user = res
+      }
+    })
+
+   this.user =  this.authService.getUser()
+  }
+
+  onLogout():void {
+    this.authService.logout()
+    this.router.navigateByUrl("/")
+  }
 
 }

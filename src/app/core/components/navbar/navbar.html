@@ -23,7 +23,14 @@
       </ul>
 
       <div class="d-flex">
+        @if (user === undefined) {
         <a [routerLink]="['/login']" class="btn btn-primary">Login</a>
+        } @else {
+          <div class="d-flex align-items-center">
+            <span>{{user.email || ''}}</span>
+            <button class="btn btn-danger ms-3" (click)="onLogout()">Logout</button>
+          </div>
+        }
       </div>
 
     </div>
