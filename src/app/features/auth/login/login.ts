@@ -4,6 +4,7 @@ import { LoginRequest } from '../models/login-request.model';
 import {  AuthService } from '../services/auth';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -27,10 +28,18 @@ export class Login {
   }
 
   onFormSubmit():void{
+    Swal.fire({
+      title: 'Loading...',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
     this.authService.login(this.model).subscribe({
       next:(res)=> {
+        Swal.close()
         // set auth cookie
-        alert("Berhasil login")
         this.cookieService.set('Authorization',`Bearer ${res.token}`,undefined,'/',undefined, true, 'Strict')
         
         // set user
@@ -38,7 +47,7 @@ export class Login {
           email:res.email,
           roles:res.roles
         })
-        
+
         // redirect back to home
         this.router.navigateByUrl("/")
       }
