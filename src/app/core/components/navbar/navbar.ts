@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../features/auth/services/auth';
 import { User } from '../../../features/auth/models/user.model';
+import { P } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-navbar',
@@ -24,8 +25,11 @@ export class Navbar implements OnInit{
   }
 
   onLogout():void {
-    this.authService.logout()
-    this.router.navigateByUrl("/")
+    const isLogout = confirm("Are you sure you wanna to logout?")
+    if(isLogout) {
+      this.authService.logout()
+      this.router.navigateByUrl("/")
+    }
   }
 
 }
