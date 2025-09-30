@@ -8,6 +8,7 @@ import { EditBlogpost } from './features/blog-post/edit-blogpost/edit-blogpost';
 import { Home } from './features/public/home/home';
 import { BlogDetails } from './features/public/blog-details/blog-details';
 import { Login } from './features/auth/login/login';
+import { authGuard } from './features/auth/guards/auth-guard';
 
 export const routes: Routes = [
     {
@@ -28,28 +29,35 @@ export const routes: Routes = [
         component:Login
     },
     {
-        path:'admin/categories',
-        component:CategoryList
-    },
-    {
-        path:'admin/categories/add',
-        component:AddCategory
-    },
-    {
-        path:'admin/categories/:id',
-        component:EditCategory
-    },
-    {
-        path:'admin/blogposts',
-        component:BlogpostList
-    },
-    {
-        path:'admin/blogposts/add',
-        component:BlogpostAdd
-    },
-    {
-        path:'admin/blogposts/:id',
-        component:EditBlogpost
+        path:'admin',
+        canActivate:[authGuard],
+        children:[
+            {   
+                path:'categories',
+                component:CategoryList
+            },
+            {
+                path:'categories/add',
+                component:AddCategory
+            },
+            {
+                path:'categories/:id',
+                component:EditCategory
+            },
+            {
+                path:'blogposts',
+                component:BlogpostList
+            },
+            {
+                path:'blogposts/add',
+                component:BlogpostAdd
+            },
+            {
+                path:'blogposts/:id',
+                component:EditBlogpost
+            }
+        ]
     }
+    
     
 ];

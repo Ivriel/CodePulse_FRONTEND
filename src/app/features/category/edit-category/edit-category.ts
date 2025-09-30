@@ -50,6 +50,10 @@ export class EditCategory implements OnInit,OnDestroy{
    this.editCategorySubscription =  this.categoryService.updateCategory(this.id,updateCategoryRequest).subscribe({
       next:() => {
         this.router.navigateByUrl("/admin/categories")
+      },
+      error:(err:any) => {
+        alert("Error updating category")
+        console.error("Error updating category: ",err)
       }
     })
     }
@@ -63,6 +67,10 @@ export class EditCategory implements OnInit,OnDestroy{
     this.categoryService.deleteCategory(this.id).subscribe({
       next:()=> {
         this.router.navigateByUrl("/admin/categories")
+      },
+      error:(err:any)=> {
+        alert("Error deleting category")
+        console.error("Error deleting category: ",err)
       }
     })
     }

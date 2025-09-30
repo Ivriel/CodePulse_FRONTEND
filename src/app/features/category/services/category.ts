@@ -5,14 +5,18 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { Category } from '../models/category.model';
 import { UpdateCategoryRequest } from '../models/update-category-request.model';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
-  constructor(private http:HttpClient){}
+  token:string = ""
+  constructor(private http:HttpClient, private cookieService:CookieService){
+    this.token = this.cookieService.get('Authorization')
+  }
 
-  addCategory(model:AddCategoryRequest):Observable<void>{
+  addCategory(model:AddCategoryRequest):Observable<void>{ 
     return this.http.post<void>(`${environment.apiBaseUrl}/api/categories`,model)
   }
 
