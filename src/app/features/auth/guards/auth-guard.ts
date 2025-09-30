@@ -34,8 +34,7 @@ export const authGuard: CanActivateFn = (route, state) => {
       if(user.roles.includes('Writer')) {
         return true
       } else {
-        alert('Unauthorized')
-        return false
+        return router.createUrlTree(['/access-denied'])
       }
     }
 

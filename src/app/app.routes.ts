@@ -9,6 +9,7 @@ import { Home } from './features/public/home/home';
 import { BlogDetails } from './features/public/blog-details/blog-details';
 import { Login } from './features/auth/login/login';
 import { authGuard } from './features/auth/guards/auth-guard';
+import { AccessDenied } from './shared/components/access-denied/access-denied';
 
 export const routes: Routes = [
     {
@@ -27,6 +28,10 @@ export const routes: Routes = [
     {
         path:'login',
         component:Login
+    },
+    {
+        path:'access-denied',
+        component:AccessDenied
     },
     {
         path:'admin',
